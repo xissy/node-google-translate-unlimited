@@ -16,8 +16,8 @@ referer = 'http://translate.google.com'
 translate = (params, options, callback) ->
   return callback new Error 'invalid params.text'  if not params?.text?
 
-  params.sourceLang = 'auto'  if not params?.sourceLang?
-  params.toLang = 'en'  if not params?.toLang?
+  params.sourceLanguage = 'auto'  if not params?.sourceLang?
+  params.toLanguage = 'en'  if not params?.toLang?
 
   if typeof options is 'function'
     callback = options
