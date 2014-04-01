@@ -1,0 +1,23 @@
+{
+  "name": "google-translate-xissy",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Use google translate API simply without limits.",
+  "main": "index.js",
+  "author": "Taeho Kim <xissysnd@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "coffee-script": "~1.7.1",
+    "async": "~0.2.10"
+  },
+  "devDependencies": {
+    "should": "~3.1.2",
+    "mocha": "~1.17.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script --require coffee-script/register --globals lw --recursive ./test -t 0"
+  }
+}
