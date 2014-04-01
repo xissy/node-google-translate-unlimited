@@ -14,7 +14,7 @@ referer = 'http://translate.google.com'
 # params.toLang - to language, default is 'en'
 #
 translate = (params, options, callback) ->
-  return callback new Error 'invalid params.text'  if not params?.text?
+  return callback new Error 'invalid params.sourceText'  if not params?.sourceText?
 
   params.sourceLanguage = 'auto'  if not params?.sourceLang?
   params.toLanguage = 'en'  if not params?.toLang?
@@ -23,7 +23,8 @@ translate = (params, options, callback) ->
     callback = options
     options = {}
 
-  translateUrl = "http://translate.google.com/translate_a/t?client=t&sl=#{params.sourceLang}&tl=#{params.toLang}&text=#{encodeURIComponent params.text}&q=#{encodeURIComponent params.text}"
+  encodedSourceText = encodeURIComponent params.sourceText
+  translateUrl = "http://translate.google.com/translate_a/t?client=t&sl=#{params.sourceLanguage}&tl=#{params.toLanguage}&text=#{encodedSourceText}&q=#{encodedSourceText}"
 
   request
     url: "#{baseUrl}?method=#{method}&header=Referer|#{referer}&url=#{encodeURIComponent translateUrl}"
@@ -36,8 +37,8 @@ translate = (params, options, callback) ->
       result = JSON.parse validateGoogleTranslateResponseText body
 
       callback null,
-        translatedText: result?[0]?[0]?[0]
         sourceText: result?[0]?[0]?[1]
+        translatedText: result?[0]?[0]?[0]
         phonetics: result?[0]?[0]?[3]
 
 

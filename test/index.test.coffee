@@ -6,7 +6,7 @@ translate = require '../lib/index'
 describe 'translate', ->
   it 'should be done', (done) ->
     translate
-      text: "24시간이 모자라"
+      sourceText: "24시간이 모자라"
     ,
       (err, result) ->
         should.not.exists err
