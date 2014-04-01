@@ -24,7 +24,7 @@ translate = (params, options, callback) ->
     options = {}
 
   encodedSourceText = encodeURIComponent params.sourceText
-  translateUrl = "http://translate.google.com/translate_a/t?client=t&sl=#{params.sourceLanguage}&tl=#{params.toLanguage}&text=#{encodedSourceText}&q=#{encodedSourceText}"
+  translateUrl = "http://translate.google.com/translate_a/t?client=p&sl=#{params.sourceLanguage}&tl=#{params.toLanguage}&text=#{encodedSourceText}&q=#{encodedSourceText}"
 
   request
     url: "#{baseUrl}?method=#{method}&header=Referer|#{referer}&url=#{encodeURIComponent translateUrl}"
@@ -34,26 +34,12 @@ translate = (params, options, callback) ->
       if reps.statusCode isnt 200
         return callback new Error "invalid status code: #{reps.statusCode}"
 
-      result = JSON.parse validateGoogleTranslateResponseText body
+      result = JSON.parse body
 
       callback null,
-        sourceText: result?[0]?[0]?[1]
-        translatedText: result?[0]?[0]?[0]
-        phonetics: result?[0]?[0]?[3]
-
-
-##
-# a recursion function to validate google translate reponse text.
-# 
-# for example,
-# source text: [[["24 hours is not enough","24시간이 모자라","","24sigan-i mojala"]],,"ko",,[["24 hours",[1],true,false,824,0,2,0],["is",[2],true,false,817,2,3,0],["not enough",[3],true,false,812,3,5,0]],[["24 시간",1,[["24 hours",824,true,false],["Twenty-four hours",0,true,false]],[[0,4]],"24시간이 모자라"],["이",2,[["is",817,true,false],["this",0,true,false],["the",0,true,false],["are",0,true,false],["these",0,true,false]],[[4,5]],""],["모자라",3,[["not enough",812,true,false],["less",133,true,false],["short of",0,true,false]],[[6,9]],""]],,,[["ko"]],2]
-# validated text: [[["24 hours is not enough","24시간이 모자라","","24sigan-i mojala"]], "" ,"ko", "" ,[["24 hours",[1],true,false,824,0,2,0],["is",[2],true,false,817,2,3,0],["not enough",[3],true,false,812,3,5,0]],[["24 시간",1,[["24 hours",824,true,false],["Twenty-four hours",0,true,false]],[[0,4]],"24시간이 모자라"],["이",2,[["is",817,true,false],["this",0,true,false],["the",0,true,false],["are",0,true,false],["these",0,true,false]],[[4,5]],""],["모자라",3,[["not enough",812,true,false],["less",133,true,false],["short of",0,true,false]],[[6,9]],""]], "" , "" ,[["ko"]],2]
-#
-validateGoogleTranslateResponseText = (text) ->
-  validatedText = text.replace /,,/g, ', "" ,'
-
-  return validatedText  if validatedText is text
-  return validateGoogleTranslateResponseText validatedText
+        sourceText: result?.sentences?[0]?.orig
+        translatedText: result?.sentences?[0]?.trans
+        phonetics: result.sentences?[0]?.src_translit
 
 
 
