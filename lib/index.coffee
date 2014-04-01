@@ -29,10 +29,10 @@ translate = (params, options, callback) ->
   request
     url: "#{baseUrl}?method=#{method}&header=Referer|#{referer}&url=#{encodeURIComponent translateUrl}"
   ,
-    (err, reps, body) ->
+    (err, resp, body) ->
       return callback err  if err?
-      if reps.statusCode isnt 200
-        return callback new Error "invalid status code: #{reps.statusCode}"
+      if resp.statusCode isnt 200
+        return callback new Error "invalid status code: #{resp.statusCode}"
 
       result = JSON.parse body
 
