@@ -1,9 +1,9 @@
-# node-google-translate-xissy
+# node-google-translate-unlimited
 > Use google translate API simply without limit.
 
 ## How to use
 ```javascript
-var translate = require('google-translate-xissy')
+var translate = require('google-translate-unlimited')
 
 translate({
   'sourceText': '24시간이 모자라',
