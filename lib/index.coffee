@@ -34,12 +34,16 @@ translate = (params, options, callback) ->
       if resp.statusCode isnt 200
         return callback new Error "invalid status code: #{resp.statusCode}"
 
-      result = JSON.parse body
+      try
+        result = JSON.parse body
 
-      callback null,
-        sourceText: result?.sentences?[0]?.orig
-        translatedText: result?.sentences?[0]?.trans
-        phonetics: result.sentences?[0]?.src_translit
+        callback null,
+          sourceText: result?.sentences?[0]?.orig
+          translatedText: result?.sentences?[0]?.trans
+          phonetics: result.sentences?[0]?.src_translit
+          
+      catch err
+        callback err
 
 
 
